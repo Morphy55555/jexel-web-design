@@ -18,13 +18,7 @@ body {
     line-height: 1.5;
 }
 
-/* Base h1 styles */
-:where(h1) {
-    margin-block: 0.67em;
-    font-size: 2em;
-    font-weight: 700;
-    line-height: 1.2;
-}
+
 
 .navbar {
     position: fixed;
@@ -169,7 +163,6 @@ body {
     padding-bottom: 0;
 }
 
-/* Hero title specific styles */
 .hero-title {
     display: flex;
     flex-direction: column;

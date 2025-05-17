@@ -126,7 +126,7 @@ body {
     justify-content: center;
     padding: 0 2rem;
     background-color: #0A0A0A; /* Fallback color */
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(images/background-pattern.jpg);
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(images/background-pattern2.webp);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -597,7 +597,7 @@ html {
 /* Contact Section */
 .contact-section {
     background-color: #0A0A0A; /* Fallback color */
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(images/background-pattern.jpg);
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(images/background-pattern2.webp);
     background-size: 110% 110%;
     background-position: center;
     background-repeat: no-repeat;

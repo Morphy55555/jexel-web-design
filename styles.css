@@ -711,6 +711,15 @@ html {
     backdrop-filter: blur(5px);
 }
 
+.contact-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
 .contact-method:hover {
     transform: translateY(-4px);
     background: rgba(217, 205, 174, 0.05);

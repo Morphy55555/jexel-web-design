@@ -1204,6 +1204,16 @@ html {
     }
 }
 
+.hero h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+}
+@media (max-width: 600px) {
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+}
+
 
 
 

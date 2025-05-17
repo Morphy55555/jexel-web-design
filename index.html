@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta name="robots" content="index, follow">
     
@@ -24,14 +23,14 @@
     <meta property="og:url" content="https://jexel.com.au/">
     <meta property="og:title" content="Jexel Web Design | Professional Web Development Services for Australian Tradies">
     <meta property="og:description" content="Expert web design and development services for Australian tradies. Custom websites, mobile-friendly design, and SEO optimization. Based in Melbourne, serving Australia-wide.">
-    <meta property="og:image" content="https://jexel.com.au/images/jexel-logo.avif">
+    <meta property="og:image" content="https://jexel.com.au/images/jexel-logo.webp">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://jexel.com.au/">
     <meta property="twitter:title" content="Jexel Web Design | Professional Web Development Services for Australian Tradies">
     <meta property="twitter:description" content="Expert web design and development services for Australian tradies. Custom websites, mobile-friendly design, and SEO optimization. Based in Melbourne, serving Australia-wide.">
-    <meta property="twitter:image" content="https://jexel.com.au/images/jexel-logo.avif">
+    <meta property="twitter:image" content="https://jexel.com.au/images/jexel-logo.webp">
     
     <!-- Local Business Schema -->
     <script type="application/ld+json">
@@ -98,7 +97,11 @@
         <div class="nav-content">
             <div class="logo">
                 <a href="/" aria-label="Jexel Technologies Home">
-                    <img src="images/jexel-logo.avif" alt="Jexel Technologies - Professional Web Design Services for Australian Tradies" width="80" height="80" loading="eager">
+                    <picture>
+                        <source srcset="images/jexel-logo.webp" type="image/webp">
+                        <source srcset="images/jexel-logo.png" type="image/png">
+                        <img src="images/jexel-logo.png" alt="Jexel Technologies - Professional Web Design Services for Australian Tradies" width="80" height="80" loading="eager">
+                    </picture>
                 </a>
             </div>
             

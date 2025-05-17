@@ -18,10 +18,16 @@ body {
     line-height: 1.5;
 }
 
-:where(h1) {
+h1 {
     margin-block: 0.67em;
     font-size: 2em;
-  }
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+section h1 {
+    font-size: 2em;
+}
 
 .navbar {
     position: fixed;

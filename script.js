@@ -18,6 +18,19 @@ function isValidURL(str) {
     }
 }
 
+// Security: Debounce scroll event
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Accessibility: Handle keyboard navigation
 function handleKeyboardNavigation(event) {
     if (event.key === 'Escape') {
@@ -32,15 +45,18 @@ function handleKeyboardNavigation(event) {
     }
 }
 
+// Initialize all functionality
 document.addEventListener('DOMContentLoaded', () => {
-    // Security: Use strict mode
     'use strict';
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-menu a');
+    const mobileStickyCta = document.querySelector('.mobile-sticky-cta');
+    const featuresSection = document.querySelector('#features-section');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Toggle menu when hamburger is clicked
+    // Menu functionality
     menuToggle?.addEventListener('click', () => {
         const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
         menuToggle.classList.toggle('active');
@@ -74,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add keyboard navigation support
     document.addEventListener('keydown', handleKeyboardNavigation);
 
-    // Add smooth scrolling to all navigation links
+    // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -87,46 +103,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     behavior: 'smooth',
                     block: 'start'
                 });
-                // Update focus for keyboard users
                 target.setAttribute('tabindex', '-1');
                 target.focus();
             }
         });
     });
-});
 
-// Security: Debounce scroll event
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Accessibility: Handle scroll events with reduced motion preference
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-window.addEventListener('scroll', debounce(function() {
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        if (window.scrollY > 10) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+    // Navbar scroll effect
+    window.addEventListener('scroll', debounce(function() {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.classList.toggle('scrolled', window.scrollY > 10);
         }
-    }
-}, prefersReducedMotion ? 0 : 10));
+    }, prefersReducedMotion ? 0 : 10));
 
-// Fade-in on scroll for feature cards
-const featureCards = document.querySelectorAll('.feature-card');
-const tradieCards = document.querySelectorAll('.tradie-feature');
+    // Intersection Observer setup
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px'
+    };
 
-if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -134,82 +130,35 @@ if ('IntersectionObserver' in window) {
                 obs.unobserve(entry.target);
             }
         });
-    }, { 
-        threshold: 0.15,
-        rootMargin: '0px'
+    }, observerOptions);
+
+    // Observe all cards and sections
+    document.querySelectorAll('.feature-card, .tradie-feature, .features-container > h2, .contact-container').forEach(element => {
+        observer.observe(element);
     });
-    
-    featureCards.forEach(card => observer.observe(card));
-    tradieCards.forEach(card => observer.observe(card));
-} else {
-    // Fallback for old browsers
-    featureCards.forEach(card => card.classList.add('visible'));
-    tradieCards.forEach(card => card.classList.add('visible'));
-}
 
-// Scroll animation for features heading
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, observerOptions);
-
-// Observe the features heading
-const featuresHeading = document.querySelector('.features-container > h2');
-if (featuresHeading) {
-    observer.observe(featuresHeading);
-}
-
-// Contact section animation
-const contactContainer = document.querySelector('.contact-container');
-if (contactContainer) {
-    const contactObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    contactObserver.observe(contactContainer);
-}
-
-// Mobile Sticky CTA Visibility Control
-const mobileStickyCta = document.querySelector('.mobile-sticky-cta');
-const featuresSection = document.querySelector('#features-section');
-
-if (mobileStickyCta && featuresSection) {
-    const featuresObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (window.innerWidth <= 768) {
-                if (entry.isIntersecting) {
-                    mobileStickyCta.classList.add('visible');
+    // Mobile Sticky CTA Visibility Control
+    if (mobileStickyCta && featuresSection) {
+        const featuresObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (window.innerWidth <= 768) {
+                    mobileStickyCta.classList.toggle('visible', entry.isIntersecting);
                 } else {
                     mobileStickyCta.classList.remove('visible');
                 }
-            } else {
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '-10% 0px'
+        });
+
+        featuresObserver.observe(featuresSection);
+
+        // Update on window resize
+        window.addEventListener('resize', debounce(() => {
+            if (window.innerWidth > 768) {
                 mobileStickyCta.classList.remove('visible');
             }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '-10% 0px'
-    });
-
-    featuresObserver.observe(featuresSection);
-
-    // Update on window resize
-    window.addEventListener('resize', debounce(() => {
-        if (window.innerWidth > 768) {
-            mobileStickyCta.classList.remove('visible');
-        }
-    }, 100));
-} 
+        }, 100));
+    }
+}); 
